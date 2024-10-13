@@ -18,7 +18,7 @@ function App() {
       <div>
         <a href="https://youtu.be/fP-371MN0Ck?t=5902">Video tutorial</a>
 
-        <div style={{ height: 120 }}>
+        <div className='h-64 bg-amber-400'>
           <BaseChart
             data={[{ value: 25 }, { value: 30 }, { value: 72 }]}>
           </BaseChart>
@@ -30,7 +30,7 @@ function App() {
       </div>
       <h1> PBS::  Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button className='bg-slate-800' onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
         <p>
