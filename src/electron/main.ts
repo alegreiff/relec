@@ -1,9 +1,12 @@
-import { app, BrowserWindow, } from "electron";
-import { ipcMainHandle, isDev } from "./util.js";
+import { app, BrowserWindow,} from "electron";
+import { ipcMainHandle, ipcMainOn, isDev } from "./util.js";
 import { getStaticData, pollResources } from "./resourcesManager.js";
 import {  getPreloadPath, getUIPath } from "./pathResolver.js";
 
 import { createTray } from "./tray.js";
+import { createMenu } from "./menu.js";
+
+//Menu.setApplicationMenu(null);
 
 //type test = string;
 app.on("ready", () => {
@@ -11,6 +14,7 @@ app.on("ready", () => {
     webPreferences: {
       preload: getPreloadPath(),
     },
+    frame: false,
   });
 
   if (isDev()) {
@@ -25,10 +29,27 @@ app.on("ready", () => {
     return getStaticData();
   });
 
+  ipcMainOn("sendFrameAction",(payload)=> {
+    switch (payload) {
+      case "CLOSE":
+        mainWindow.close();
+        break;
+        case "MAXIMIZE":
+          mainWindow.maximize();
+          break;
+          case "MINIMIZE":
+            mainWindow.minimize();
+            break;
+    
+      default:
+        break;
+    }
+  })
   
 
   createTray(mainWindow);
    handleCloseEvents(mainWindow);
+   createMenu(mainWindow);
 });
 
 
