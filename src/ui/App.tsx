@@ -1,36 +1,32 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-
-import './App.css'
-import { BaseChart } from './BaseChart'
+import { useMemo, useState } from "react";
+import reactLogo from "./assets/react.svg";
+import "./App.css";
+import { useStatistics } from "./useStatistics";
+import { Chart } from "./Chart";
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  useEffect(() => {
-
-    const unsub = window.electron.subscribeStatistics((stats) => console.log(stats));
-    return unsub;
-  }, [])
+  const [count, setCount] = useState(0);
+  const statistics = useStatistics(10);
+  const cpuUsages = useMemo(
+    () => statistics.map((stat) => stat.cpuUsage),
+    [statistics]
+  );
 
   return (
-    <>
+    <div>
       <div>
         <a href="https://youtu.be/fP-371MN0Ck?t=5902">Video tutorial</a>
-
-        <div className='h-64 bg-amber-400'>
-          <BaseChart
-            data={[{ value: 25 }, { value: 30 }, { value: 72 }]}>
-          </BaseChart>
+        <div className="h-48">
+          <Chart data={cpuUsages} maxDataPoints={10} />
         </div>
 
         <a href="https://react.dev" target="_blank">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1> PBS::  Vite + React</h1>
+      <h1> PBS:: Vite + React</h1>
       <div className="card">
-        <button className='bg-slate-800' onClick={() => setCount((count) => count + 1)}>
+        <button className="" onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
         <p>
@@ -40,8 +36,8 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
