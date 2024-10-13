@@ -14,6 +14,7 @@ function App() {
   return (
     <>
       <div>
+        <a href="https://youtu.be/fP-371MN0Ck?t=5902">Video tutorial</a>
 
         <a href="https://react.dev" target="_blank">
           <img src={reactLogo} className="logo react" alt="React logo" />
